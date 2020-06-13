@@ -28,7 +28,7 @@ Import template to zabbix.
 
 ![](/img/discovery_rules_03.png)
 
-##### Virtual disks discovery
+##### Virtual disks discovery:
 ![](/img/discovery_rules_04.png)
 
 ![](/img/discovery_rules_05.png)
