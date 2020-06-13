@@ -1,7 +1,26 @@
 # Zabbix: LSI MegaRAID monitoring
-Captures disks in **all** adapters and enclosures
+Captures disks in **all** adapters and enclosures.
 
-**Examples of MegaCli output:**
+#### Features:
+1. LLD;
+2. dependent items.
+
+Template exported from zabbix 4.0 but worked on zabbix 3.4.
+
+#### Installation
+
+Adjust sudoers rules:
+
+    cp zabbix_megacli /etc/sudoers.d/zabbix_megacli
+
+Install zabbix userparameter:
+
+    cp userparameter_lsimegaraid.conf <zabbix_include_dir>/userparameter_lsimegaraid.conf
+    service zabbix-agent restart
+
+Import template to zabbix.
+
+#### Examples of MegaCli output:
 
 Info about **logical** disks
 
