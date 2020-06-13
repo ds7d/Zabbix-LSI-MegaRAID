@@ -20,6 +20,19 @@ Install zabbix userparameter:
 
 Import template to zabbix.
 
+#### Discovery rules, items and triggers prototypes:
+![](/img/discovery_rules_01.png)
+
+##### Physical disks discovery:
+![](/img/discovery_rules_02.png)
+
+![](/img/discovery_rules_03.png)
+
+##### Virtual disks discovery
+![](/img/discovery_rules_04.png)
+
+![](/img/discovery_rules_05.png)
+
 #### Examples of MegaCli output:
 
 Info about **logical** disks
