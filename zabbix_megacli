@@ -1,0 +1,2 @@
+Defaults:zabbix !requiretty
+zabbix  ALL=(ALL)       NOPASSWD: /opt/MegaRAID/MegaCli/MegaCli, /opt/MegaRAID/MegaCli/MegaCli64, /usr/sbin/megacli
