@@ -68,4 +68,10 @@ case "$1" in
   echo "${DATACACHE}" | grep "VirtualDrive${VD} " | \
     awk '{$1="";$0 = substr($0,2); print $0}' | awk 'BEGIN{print "{"} {print} END{print "}"}'
   ;;
+  "battery_missing")
+	 ${MEGACLI} -AdpBbuCmd -GetBbuStatus -aALL | /bin/grep -cE '(Battery Pack Missing.*es|Battery State.*Missing|The required hardware component is not present)'
+  ;;
+  "battery_state")
+	  ${MEGACLI} -AdpBbuCmd -GetBbuStatus -aALL | /usr/bin/awk 'BEGIN { s = 1; } /^Battery State: *(Optimal|Operational)/ { s = 0; } /^Battery State: *(Learning|Charging|Discharging)/ { s = 2; } /Battery Replacement required.*es/ { s = 3; }  END { print s; }'
+  ;;
 esac
