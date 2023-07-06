@@ -1,1092 +1,501 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>4.0</version>
-    <date>2020-06-13T23:20:50Z</date>
-    <groups>
-        <group>
+    <version>6.2</version>
+    <date>2023-07-06T04:37:58Z</date>
+    <template_groups>
+        <template_group>
+            <uuid>7df96b18c230490a9a0a9e2307226338</uuid>
             <name>Templates</name>
-        </group>
-    </groups>
+        </template_group>
+    </template_groups>
     <templates>
         <template>
+            <uuid>4e5b6a12dd7f4f0d92477331874eff65</uuid>
             <template>Raid LSI MegaRaid All Adapters and Enclosures</template>
             <name>Raid LSI MegaRaid All Adapters and Enclosures</name>
-            <description>- install pciutils and check if server has supported MegaRAID controller&#13;
-    lspci | grep MegaRAID&#13;
-- install sudo and configure it to include configuration files from /etc/sudoers.d&#13;
-- configure zabbix agent to include configuration files from /etc/zabbix/zabbix_agentd.d&#13;
-&#13;
-- install MegaCli package&#13;
-&#13;
-- for systems with &quot;MegaRAID SAS 1078&quot; disable &quot;VirtualDrive Bad Blocks Exist&quot; checks&#13;
-    this controller does not provide required information which leads to false positive alerts&#13;
+            <description>- install pciutils and check if server has supported MegaRAID controller
+    lspci | grep MegaRAID
+- install sudo and configure it to include configuration files from /etc/sudoers.d
+- configure zabbix agent to include configuration files from /etc/zabbix/zabbix_agentd.d
+
+- install MegaCli package
+
+- for systems with &quot;MegaRAID SAS 1078&quot; disable &quot;VirtualDrive Bad Blocks Exist&quot; checks
+    this controller does not provide required information which leads to false positive alerts
     VirtualDrive monitoring is limited to &quot;VirtualDrive State&quot; check</description>
             <groups>
                 <group>
                     <name>Templates</name>
                 </group>
             </groups>
-            <applications>
-                <application>
-                    <name>LSI_MegaRaid Phisical Disks</name>
-                </application>
-                <application>
-                    <name>LSI_MegaRaid Virtual Disks</name>
-                </application>
-                <application>
-                    <name>LSI_MegaRaid_raw</name>
-                </application>
-            </applications>
-            <items/>
+            <items>
+                <item>
+                    <uuid>55ada6fbbe684a7a93b0c7776384a79d</uuid>
+                    <name>Raid LSI MegaRaid battery not detected</name>
+                    <key>lsimegaraid[battery_missing]</key>
+                    <delay>1h</delay>
+                    <history>30d</history>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>LSI_MegaRaid Battery</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>4c61ff81aebb46ea975690e864176eaf</uuid>
+                            <expression>last(/Raid LSI MegaRaid All Adapters and Enclosures/lsimegaraid[battery_missing])&lt;&gt;0</expression>
+                            <name>Raid LSI MegaRaid battery: battery not detected</name>
+                            <priority>WARNING</priority>
+                            <manual_close>YES</manual_close>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>LSI_MegaRaid Battery</value>
+                                </tag>
+                            </tags>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>ba2a27d9ba8448919acb306387ae0c04</uuid>
+                    <name>Raid LSI MegaRaid battery state</name>
+                    <key>lsimegaraid[battery_state]</key>
+                    <delay>1h</delay>
+                    <history>30d</history>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>LSI_MegaRaid Battery</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>3e90cff2072d4299b3fa8ae42987a8d0</uuid>
+                            <expression>last(/Raid LSI MegaRaid All Adapters and Enclosures/lsimegaraid[battery_state])&lt;&gt;0</expression>
+                            <name>Raid LSI MegaRaid battery: battery bad state</name>
+                            <priority>WARNING</priority>
+                            <manual_close>YES</manual_close>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>LSI_MegaRaid Battery</value>
+                                </tag>
+                            </tags>
+                        </trigger>
+                    </triggers>
+                </item>
+            </items>
             <discovery_rules>
                 <discovery_rule>
+                    <uuid>b094d044dad9493a98cda77c349a96b0</uuid>
                     <name>Physical disks discovery</name>
-                    <type>0</type>
-                    <snmp_community/>
-                    <snmp_oid/>
                     <key>lsimegaraid[lsi.pd.discovery]</key>
                     <delay>1h</delay>
-                    <status>0</status>
-                    <allowed_hosts/>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <filter>
-                        <evaltype>0</evaltype>
-                        <formula/>
-                        <conditions/>
-                    </filter>
-                    <lifetime>30d</lifetime>
-                    <description/>
                     <item_prototypes>
                         <item_prototype>
+                            <uuid>b17f13a1a7a54c1a9b9a2da2de827eca</uuid>
                             <name>{#ADENCSLOT} all data</name>
-                            <type>0</type>
-                            <snmp_community/>
-                            <snmp_oid/>
                             <key>lsimegaraid[pd,&quot;{#ADENCSLOT}&quot;]</key>
                             <delay>2m</delay>
                             <history>1d</history>
                             <trends>0</trends>
-                            <status>0</status>
-                            <value_type>4</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>LSI_MegaRaid_raw</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <timeout>3s</timeout>
-                            <url/>
-                            <query_fields/>
-                            <posts/>
-                            <status_codes>200</status_codes>
-                            <follow_redirects>1</follow_redirects>
-                            <post_type>0</post_type>
-                            <http_proxy/>
-                            <headers/>
-                            <retrieve_mode>0</retrieve_mode>
-                            <request_method>1</request_method>
-                            <output_format>0</output_format>
-                            <allow_traps>0</allow_traps>
-                            <ssl_cert_file/>
-                            <ssl_key_file/>
-                            <ssl_key_password/>
-                            <verify_peer>0</verify_peer>
-                            <verify_host>0</verify_host>
-                            <application_prototypes/>
-                            <master_item/>
+                            <value_type>TEXT</value_type>
+                            <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>LSI_MegaRaid_raw</value>
+                                </tag>
+                            </tags>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>d5e890fe20fc40c58c27956fc1d109eb</uuid>
+                                    <expression>nodata(/Raid LSI MegaRaid All Adapters and Enclosures/lsimegaraid[pd,&quot;{#ADENCSLOT}&quot;],12m)=1</expression>
+                                    <name>LSIMegaRaid: nodata about {#ADENCSLOT}</name>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>fe039e621f0247eebca6b6d2dc3ab786</uuid>
                             <name>{#ADENCSLOT} Predictive Failure Count</name>
-                            <type>18</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>DEPENDENT</type>
                             <key>pd.failurecount[&quot;{#ADENCSLOT}&quot;]</key>
                             <delay>0</delay>
                             <history>8d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>LSI_MegaRaid Phisical Disks</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
                             <preprocessing>
                                 <step>
-                                    <type>12</type>
-                                    <params>$['failurecount']</params>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$['failurecount']</parameter>
+                                    </parameters>
                                 </step>
                             </preprocessing>
-                            <jmx_endpoint/>
-                            <timeout>3s</timeout>
-                            <url/>
-                            <query_fields/>
-                            <posts/>
-                            <status_codes>200</status_codes>
-                            <follow_redirects>1</follow_redirects>
-                            <post_type>0</post_type>
-                            <http_proxy/>
-                            <headers/>
-                            <retrieve_mode>0</retrieve_mode>
-                            <request_method>1</request_method>
-                            <output_format>0</output_format>
-                            <allow_traps>0</allow_traps>
-                            <ssl_cert_file/>
-                            <ssl_key_file/>
-                            <ssl_key_password/>
-                            <verify_peer>0</verify_peer>
-                            <verify_host>0</verify_host>
-                            <application_prototypes/>
                             <master_item>
                                 <key>lsimegaraid[pd,&quot;{#ADENCSLOT}&quot;]</key>
                             </master_item>
+                            <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>LSI_MegaRaid Phisical Disks</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>60282340c8e7425db37847343551552e</uuid>
                             <name>{#ADENCSLOT} Inquiry Data</name>
-                            <type>18</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>DEPENDENT</type>
                             <key>pd.inquiry[&quot;{#ADENCSLOT}&quot;]</key>
                             <delay>0</delay>
                             <history>8d</history>
                             <trends>0</trends>
-                            <status>0</status>
-                            <value_type>4</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>LSI_MegaRaid Phisical Disks</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
+                            <value_type>TEXT</value_type>
                             <preprocessing>
                                 <step>
-                                    <type>12</type>
-                                    <params>$['inquiry']</params>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$['inquiry']</parameter>
+                                    </parameters>
                                 </step>
                             </preprocessing>
-                            <jmx_endpoint/>
-                            <timeout>3s</timeout>
-                            <url/>
-                            <query_fields/>
-                            <posts/>
-                            <status_codes>200</status_codes>
-                            <follow_redirects>1</follow_redirects>
-                            <post_type>0</post_type>
-                            <http_proxy/>
-                            <headers/>
-                            <retrieve_mode>0</retrieve_mode>
-                            <request_method>1</request_method>
-                            <output_format>0</output_format>
-                            <allow_traps>0</allow_traps>
-                            <ssl_cert_file/>
-                            <ssl_key_file/>
-                            <ssl_key_password/>
-                            <verify_peer>0</verify_peer>
-                            <verify_host>0</verify_host>
-                            <application_prototypes/>
                             <master_item>
                                 <key>lsimegaraid[pd,&quot;{#ADENCSLOT}&quot;]</key>
                             </master_item>
+                            <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>LSI_MegaRaid Phisical Disks</value>
+                                </tag>
+                            </tags>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>e7101ca3ee2f4e41af1954f130ccfd2b</uuid>
+                                    <expression>(last(/Raid LSI MegaRaid All Adapters and Enclosures/pd.inquiry[&quot;{#ADENCSLOT}&quot;],#1)&lt;&gt;last(/Raid LSI MegaRaid All Adapters and Enclosures/pd.inquiry[&quot;{#ADENCSLOT}&quot;],#2))&gt;0</expression>
+                                    <name>LSIMegaRaid: {#ADENCSLOT} inquiry data changed</name>
+                                    <priority>INFO</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>8f5aacab69d64b068f622e025cfb5fc7</uuid>
                             <name>{#ADENCSLOT} Media Error Count</name>
-                            <type>18</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>DEPENDENT</type>
                             <key>pd.mediaerror[&quot;{#ADENCSLOT}&quot;]</key>
                             <delay>0</delay>
                             <history>8d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>LSI_MegaRaid Phisical Disks</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
                             <preprocessing>
                                 <step>
-                                    <type>12</type>
-                                    <params>$['mediaerror']</params>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$['mediaerror']</parameter>
+                                    </parameters>
                                 </step>
                             </preprocessing>
-                            <jmx_endpoint/>
-                            <timeout>3s</timeout>
-                            <url/>
-                            <query_fields/>
-                            <posts/>
-                            <status_codes>200</status_codes>
-                            <follow_redirects>1</follow_redirects>
-                            <post_type>0</post_type>
-                            <http_proxy/>
-                            <headers/>
-                            <retrieve_mode>0</retrieve_mode>
-                            <request_method>1</request_method>
-                            <output_format>0</output_format>
-                            <allow_traps>0</allow_traps>
-                            <ssl_cert_file/>
-                            <ssl_key_file/>
-                            <ssl_key_password/>
-                            <verify_peer>0</verify_peer>
-                            <verify_host>0</verify_host>
-                            <application_prototypes/>
                             <master_item>
                                 <key>lsimegaraid[pd,&quot;{#ADENCSLOT}&quot;]</key>
                             </master_item>
+                            <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>LSI_MegaRaid Phisical Disks</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>9ba3a33f0c3745ffb30a3af983890e41</uuid>
                             <name>{#ADENCSLOT} Other Error Count</name>
-                            <type>18</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>DEPENDENT</type>
                             <key>pd.othererror[&quot;{#ADENCSLOT}&quot;]</key>
                             <delay>0</delay>
                             <history>8d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>LSI_MegaRaid Phisical Disks</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
                             <preprocessing>
                                 <step>
-                                    <type>12</type>
-                                    <params>$['othererror']</params>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$['othererror']</parameter>
+                                    </parameters>
                                 </step>
                             </preprocessing>
-                            <jmx_endpoint/>
-                            <timeout>3s</timeout>
-                            <url/>
-                            <query_fields/>
-                            <posts/>
-                            <status_codes>200</status_codes>
-                            <follow_redirects>1</follow_redirects>
-                            <post_type>0</post_type>
-                            <http_proxy/>
-                            <headers/>
-                            <retrieve_mode>0</retrieve_mode>
-                            <request_method>1</request_method>
-                            <output_format>0</output_format>
-                            <allow_traps>0</allow_traps>
-                            <ssl_cert_file/>
-                            <ssl_key_file/>
-                            <ssl_key_password/>
-                            <verify_peer>0</verify_peer>
-                            <verify_host>0</verify_host>
-                            <application_prototypes/>
                             <master_item>
                                 <key>lsimegaraid[pd,&quot;{#ADENCSLOT}&quot;]</key>
                             </master_item>
+                            <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>LSI_MegaRaid Phisical Disks</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>69bcdfaa9fc445b4981fa848d1d13da1</uuid>
                             <name>{#ADENCSLOT} has flagged a S.M.A.R.T alert</name>
-                            <type>18</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>DEPENDENT</type>
                             <key>pd.smart[&quot;{#ADENCSLOT}&quot;]</key>
                             <delay>0</delay>
                             <history>8d</history>
                             <trends>0</trends>
-                            <status>0</status>
-                            <value_type>4</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>LSI_MegaRaid Phisical Disks</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
+                            <value_type>TEXT</value_type>
                             <preprocessing>
                                 <step>
-                                    <type>12</type>
-                                    <params>$['smart']</params>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$['smart']</parameter>
+                                    </parameters>
                                 </step>
                             </preprocessing>
-                            <jmx_endpoint/>
-                            <timeout>3s</timeout>
-                            <url/>
-                            <query_fields/>
-                            <posts/>
-                            <status_codes>200</status_codes>
-                            <follow_redirects>1</follow_redirects>
-                            <post_type>0</post_type>
-                            <http_proxy/>
-                            <headers/>
-                            <retrieve_mode>0</retrieve_mode>
-                            <request_method>1</request_method>
-                            <output_format>0</output_format>
-                            <allow_traps>0</allow_traps>
-                            <ssl_cert_file/>
-                            <ssl_key_file/>
-                            <ssl_key_password/>
-                            <verify_peer>0</verify_peer>
-                            <verify_host>0</verify_host>
-                            <application_prototypes/>
                             <master_item>
                                 <key>lsimegaraid[pd,&quot;{#ADENCSLOT}&quot;]</key>
                             </master_item>
+                            <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>LSI_MegaRaid Phisical Disks</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>ca6a335866ad4ce0881755f2980a75ca</uuid>
                             <name>{#ADENCSLOT} State</name>
-                            <type>18</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>DEPENDENT</type>
                             <key>pd.state[&quot;{#ADENCSLOT}&quot;]</key>
                             <delay>0</delay>
                             <history>8d</history>
                             <trends>0</trends>
-                            <status>0</status>
-                            <value_type>4</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>LSI_MegaRaid Phisical Disks</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
+                            <value_type>TEXT</value_type>
                             <preprocessing>
                                 <step>
-                                    <type>12</type>
-                                    <params>$['state']</params>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$['state']</parameter>
+                                    </parameters>
                                 </step>
                             </preprocessing>
-                            <jmx_endpoint/>
-                            <timeout>3s</timeout>
-                            <url/>
-                            <query_fields/>
-                            <posts/>
-                            <status_codes>200</status_codes>
-                            <follow_redirects>1</follow_redirects>
-                            <post_type>0</post_type>
-                            <http_proxy/>
-                            <headers/>
-                            <retrieve_mode>0</retrieve_mode>
-                            <request_method>1</request_method>
-                            <output_format>0</output_format>
-                            <allow_traps>0</allow_traps>
-                            <ssl_cert_file/>
-                            <ssl_key_file/>
-                            <ssl_key_password/>
-                            <verify_peer>0</verify_peer>
-                            <verify_host>0</verify_host>
-                            <application_prototypes/>
                             <master_item>
                                 <key>lsimegaraid[pd,&quot;{#ADENCSLOT}&quot;]</key>
                             </master_item>
+                            <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>LSI_MegaRaid Phisical Disks</value>
+                                </tag>
+                            </tags>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>f94606f672af4f2081146e39eb094c73</uuid>
+                                    <expression>(find(/Raid LSI MegaRaid All Adapters and Enclosures/pd.state[&quot;{#ADENCSLOT}&quot;],,&quot;like&quot;,&quot;Online&quot;)=0) + (find(/Raid LSI MegaRaid All Adapters and Enclosures/pd.state[&quot;{#ADENCSLOT}&quot;],,&quot;like&quot;,&quot;good&quot;)=0) + (find(/Raid LSI MegaRaid All Adapters and Enclosures/pd.state[&quot;{#ADENCSLOT}&quot;],,&quot;like&quot;,&quot;JBOD&quot;)=0) &gt;2</expression>
+                                    <name>LSIMegaRaid: {#ADENCSLOT} state is not online</name>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>dd04e61313ec4bd0b56c0d2eda298621</uuid>
                             <name>{#ADENCSLOT} Temperature</name>
-                            <type>18</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>DEPENDENT</type>
                             <key>pd.temperature[&quot;{#ADENCSLOT}&quot;]</key>
                             <delay>0</delay>
                             <history>8d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>0</value_type>
-                            <allowed_hosts/>
+                            <value_type>FLOAT</value_type>
                             <units>C</units>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>LSI_MegaRaid Phisical Disks</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
                             <preprocessing>
                                 <step>
-                                    <type>12</type>
-                                    <params>$['temperature']</params>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$['temperature']</parameter>
+                                    </parameters>
                                 </step>
                             </preprocessing>
-                            <jmx_endpoint/>
-                            <timeout>3s</timeout>
-                            <url/>
-                            <query_fields/>
-                            <posts/>
-                            <status_codes>200</status_codes>
-                            <follow_redirects>1</follow_redirects>
-                            <post_type>0</post_type>
-                            <http_proxy/>
-                            <headers/>
-                            <retrieve_mode>0</retrieve_mode>
-                            <request_method>1</request_method>
-                            <output_format>0</output_format>
-                            <allow_traps>0</allow_traps>
-                            <ssl_cert_file/>
-                            <ssl_key_file/>
-                            <ssl_key_password/>
-                            <verify_peer>0</verify_peer>
-                            <verify_host>0</verify_host>
-                            <application_prototypes/>
                             <master_item>
                                 <key>lsimegaraid[pd,&quot;{#ADENCSLOT}&quot;]</key>
                             </master_item>
+                            <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>LSI_MegaRaid Phisical Disks</value>
+                                </tag>
+                            </tags>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>b83daa8c2dca4852961f80c491f09476</uuid>
+                                    <expression>last(/Raid LSI MegaRaid All Adapters and Enclosures/pd.temperature[&quot;{#ADENCSLOT}&quot;])&gt;45</expression>
+                                    <name>LSIMegaRaid: {#ADENCSLOT} temperature is high</name>
+                                    <priority>AVERAGE</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>7236699016ab49ac92d6240c0b8fba08</uuid>
+                                    <expression>last(/Raid LSI MegaRaid All Adapters and Enclosures/pd.temperature[&quot;{#ADENCSLOT}&quot;])&gt;49</expression>
+                                    <name>LSIMegaRaid: {#ADENCSLOT} temperature is very high</name>
+                                    <priority>AVERAGE</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{Raid LSI MegaRaid All Adapters and Enclosures:lsimegaraid[pd,&quot;{#ADENCSLOT}&quot;].nodata(12m)}=1</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>LSIMegaRaid: nodata about {#ADENCSLOT}</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>4</priority>
-                            <description/>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Raid LSI MegaRaid All Adapters and Enclosures:pd.smart[&quot;{#ADENCSLOT}&quot;].str(No)}=0 and {Raid LSI MegaRaid All Adapters and Enclosures:pd.state[&quot;{#ADENCSLOT}&quot;].str(Failed)}=0</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
+                            <uuid>647593797736400589a5eba0bb95c517</uuid>
+                            <expression>find(/Raid LSI MegaRaid All Adapters and Enclosures/pd.smart[&quot;{#ADENCSLOT}&quot;],,&quot;like&quot;,&quot;No&quot;)=0 and find(/Raid LSI MegaRaid All Adapters and Enclosures/pd.state[&quot;{#ADENCSLOT}&quot;],,&quot;like&quot;,&quot;Failed&quot;)=0</expression>
                             <name>LSIMegaRaid: {#ADENCSLOT} has flagged a S.M.A.R.T alert</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>3</priority>
-                            <description/>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
+                            <priority>AVERAGE</priority>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Raid LSI MegaRaid All Adapters and Enclosures:pd.inquiry[&quot;{#ADENCSLOT}&quot;].diff(0)}&gt;0</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>LSIMegaRaid: {#ADENCSLOT} inquiry data changed</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>1</priority>
-                            <description/>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Raid LSI MegaRaid All Adapters and Enclosures:pd.mediaerror[&quot;{#ADENCSLOT}&quot;].last(0)}&gt;0 and {Raid LSI MegaRaid All Adapters and Enclosures:pd.state[&quot;{#ADENCSLOT}&quot;].str(Failed)}=0</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
+                            <uuid>478fc6b2ffb143078077d7afd87a890f</uuid>
+                            <expression>last(/Raid LSI MegaRaid All Adapters and Enclosures/pd.mediaerror[&quot;{#ADENCSLOT}&quot;])&gt;0 and find(/Raid LSI MegaRaid All Adapters and Enclosures/pd.state[&quot;{#ADENCSLOT}&quot;],,&quot;like&quot;,&quot;Failed&quot;)=0</expression>
                             <name>LSIMegaRaid: {#ADENCSLOT} Media Error Count</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>3</priority>
-                            <description/>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
+                            <priority>AVERAGE</priority>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Raid LSI MegaRaid All Adapters and Enclosures:pd.othererror[&quot;{#ADENCSLOT}&quot;].last(0)}&gt;0 and {Raid LSI MegaRaid All Adapters and Enclosures:pd.state[&quot;{#ADENCSLOT}&quot;].str(Failed)}=0</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
+                            <uuid>97a2e2c27c964a4cb52880509dc5f6a8</uuid>
+                            <expression>last(/Raid LSI MegaRaid All Adapters and Enclosures/pd.othererror[&quot;{#ADENCSLOT}&quot;])&gt;0 and find(/Raid LSI MegaRaid All Adapters and Enclosures/pd.state[&quot;{#ADENCSLOT}&quot;],,&quot;like&quot;,&quot;Failed&quot;)=0</expression>
                             <name>LSIMegaRaid: {#ADENCSLOT} Other Error Count</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>2</priority>
-                            <description/>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
+                            <priority>WARNING</priority>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Raid LSI MegaRaid All Adapters and Enclosures:pd.failurecount[&quot;{#ADENCSLOT}&quot;].last(0)}&gt;0 and {Raid LSI MegaRaid All Adapters and Enclosures:pd.state[&quot;{#ADENCSLOT}&quot;].str(Failed)}=0</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
+                            <uuid>5dd6ed1d05f64bd392fb07e03c2feecc</uuid>
+                            <expression>last(/Raid LSI MegaRaid All Adapters and Enclosures/pd.failurecount[&quot;{#ADENCSLOT}&quot;])&gt;0 and find(/Raid LSI MegaRaid All Adapters and Enclosures/pd.state[&quot;{#ADENCSLOT}&quot;],,&quot;like&quot;,&quot;Failed&quot;)=0</expression>
                             <name>LSIMegaRaid: {#ADENCSLOT} Predictive Failure Count</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>3</priority>
-                            <description/>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>({Raid LSI MegaRaid All Adapters and Enclosures:pd.state[&quot;{#ADENCSLOT}&quot;].str(Online)}=0) + ({Raid LSI MegaRaid All Adapters and Enclosures:pd.state[&quot;{#ADENCSLOT}&quot;].str(good)}=0) + ({Raid LSI MegaRaid All Adapters and Enclosures:pd.state[&quot;{#ADENCSLOT}&quot;].str(JBOD)}=0) &gt;2</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>LSIMegaRaid: {#ADENCSLOT} state is not online</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>4</priority>
-                            <description/>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Raid LSI MegaRaid All Adapters and Enclosures:pd.temperature[&quot;{#ADENCSLOT}&quot;].last()}&gt;45</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>LSIMegaRaid: {#ADENCSLOT} temperature is high</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>3</priority>
-                            <description/>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Raid LSI MegaRaid All Adapters and Enclosures:pd.temperature[&quot;{#ADENCSLOT}&quot;].last()}&gt;49</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>LSIMegaRaid: {#ADENCSLOT} temperature is very high</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>3</priority>
-                            <description/>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
+                            <priority>AVERAGE</priority>
                         </trigger_prototype>
                     </trigger_prototypes>
-                    <graph_prototypes/>
-                    <host_prototypes/>
-                    <jmx_endpoint/>
-                    <timeout>3s</timeout>
-                    <url/>
-                    <query_fields/>
-                    <posts/>
-                    <status_codes>200</status_codes>
-                    <follow_redirects>1</follow_redirects>
-                    <post_type>0</post_type>
-                    <http_proxy/>
-                    <headers/>
-                    <retrieve_mode>0</retrieve_mode>
-                    <request_method>1</request_method>
-                    <allow_traps>0</allow_traps>
-                    <ssl_cert_file/>
-                    <ssl_key_file/>
-                    <ssl_key_password/>
-                    <verify_peer>0</verify_peer>
-                    <verify_host>0</verify_host>
+                    <request_method>POST</request_method>
                 </discovery_rule>
                 <discovery_rule>
+                    <uuid>23c42c377d13477aa2c3d0ca68b6e896</uuid>
                     <name>Virtual disks discovery</name>
-                    <type>0</type>
-                    <snmp_community/>
-                    <snmp_oid/>
                     <key>lsimegaraid[lsi.vd.discovery]</key>
                     <delay>1h</delay>
-                    <status>0</status>
-                    <allowed_hosts/>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <filter>
-                        <evaltype>0</evaltype>
-                        <formula/>
-                        <conditions/>
-                    </filter>
-                    <lifetime>30d</lifetime>
-                    <description/>
                     <item_prototypes>
                         <item_prototype>
+                            <uuid>fcd11a8becda4e979c04d7a79de92f27</uuid>
                             <name>{#ADVD} all data</name>
-                            <type>0</type>
-                            <snmp_community/>
-                            <snmp_oid/>
                             <key>lsimegaraid[vd,&quot;{#ADVD}&quot;]</key>
                             <delay>10m</delay>
                             <history>1d</history>
                             <trends>0</trends>
-                            <status>0</status>
-                            <value_type>4</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>LSI_MegaRaid_raw</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <timeout>3s</timeout>
-                            <url/>
-                            <query_fields/>
-                            <posts/>
-                            <status_codes>200</status_codes>
-                            <follow_redirects>1</follow_redirects>
-                            <post_type>0</post_type>
-                            <http_proxy/>
-                            <headers/>
-                            <retrieve_mode>0</retrieve_mode>
-                            <request_method>1</request_method>
-                            <output_format>0</output_format>
-                            <allow_traps>0</allow_traps>
-                            <ssl_cert_file/>
-                            <ssl_key_file/>
-                            <ssl_key_password/>
-                            <verify_peer>0</verify_peer>
-                            <verify_host>0</verify_host>
-                            <application_prototypes/>
-                            <master_item/>
+                            <value_type>TEXT</value_type>
+                            <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>LSI_MegaRaid_raw</value>
+                                </tag>
+                            </tags>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>1da63a575d8347ec919a1cf48914a74a</uuid>
+                                    <expression>nodata(/Raid LSI MegaRaid All Adapters and Enclosures/lsimegaraid[vd,&quot;{#ADVD}&quot;],25m)=1</expression>
+                                    <name>LSIMegaRaid: nodata about {#ADVD}</name>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>dde101bd0f8d4d6fb4a0f1790542df31</uuid>
                             <name>{#ADVD} Bad Blocks Exist</name>
-                            <type>18</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>DEPENDENT</type>
                             <key>vd.badblock[&quot;{#ADVD}&quot;]</key>
                             <delay>0</delay>
                             <history>8d</history>
                             <trends>0</trends>
-                            <status>0</status>
-                            <value_type>4</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>LSI_MegaRaid Virtual Disks</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
+                            <value_type>TEXT</value_type>
                             <preprocessing>
                                 <step>
-                                    <type>12</type>
-                                    <params>$['badblock']</params>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$['badblock']</parameter>
+                                    </parameters>
                                 </step>
                             </preprocessing>
-                            <jmx_endpoint/>
-                            <timeout>3s</timeout>
-                            <url/>
-                            <query_fields/>
-                            <posts/>
-                            <status_codes>200</status_codes>
-                            <follow_redirects>1</follow_redirects>
-                            <post_type>0</post_type>
-                            <http_proxy/>
-                            <headers/>
-                            <retrieve_mode>0</retrieve_mode>
-                            <request_method>1</request_method>
-                            <output_format>0</output_format>
-                            <allow_traps>0</allow_traps>
-                            <ssl_cert_file/>
-                            <ssl_key_file/>
-                            <ssl_key_password/>
-                            <verify_peer>0</verify_peer>
-                            <verify_host>0</verify_host>
-                            <application_prototypes/>
                             <master_item>
                                 <key>lsimegaraid[vd,&quot;{#ADVD}&quot;]</key>
                             </master_item>
+                            <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>LSI_MegaRaid Virtual Disks</value>
+                                </tag>
+                            </tags>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>c607ecd9a01e4ff48691bd984f23c7bb</uuid>
+                                    <expression>find(/Raid LSI MegaRaid All Adapters and Enclosures/vd.badblock[&quot;{#ADVD}&quot;],,&quot;like&quot;,&quot;No&quot;)=0</expression>
+                                    <name>LSIMegaRaid: {#ADVD} Bad Blocks Exist</name>
+                                    <priority>AVERAGE</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>7c4e4d2fb6474d40a0f14a5bdb61ae96</uuid>
                             <name>{#ADVD} State</name>
-                            <type>18</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>DEPENDENT</type>
                             <key>vd.state[&quot;{#ADVD}&quot;]</key>
                             <delay>0</delay>
                             <history>8d</history>
                             <trends>0</trends>
-                            <status>0</status>
-                            <value_type>4</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>LSI_MegaRaid Virtual Disks</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
+                            <value_type>TEXT</value_type>
                             <preprocessing>
                                 <step>
-                                    <type>12</type>
-                                    <params>$['state']</params>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$['state']</parameter>
+                                    </parameters>
                                 </step>
                             </preprocessing>
-                            <jmx_endpoint/>
-                            <timeout>3s</timeout>
-                            <url/>
-                            <query_fields/>
-                            <posts/>
-                            <status_codes>200</status_codes>
-                            <follow_redirects>1</follow_redirects>
-                            <post_type>0</post_type>
-                            <http_proxy/>
-                            <headers/>
-                            <retrieve_mode>0</retrieve_mode>
-                            <request_method>1</request_method>
-                            <output_format>0</output_format>
-                            <allow_traps>0</allow_traps>
-                            <ssl_cert_file/>
-                            <ssl_key_file/>
-                            <ssl_key_password/>
-                            <verify_peer>0</verify_peer>
-                            <verify_host>0</verify_host>
-                            <application_prototypes/>
                             <master_item>
                                 <key>lsimegaraid[vd,&quot;{#ADVD}&quot;]</key>
                             </master_item>
+                            <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>LSI_MegaRaid Virtual Disks</value>
+                                </tag>
+                            </tags>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>a2eddff0147a413c8a720685f00cc7f4</uuid>
+                                    <expression>find(/Raid LSI MegaRaid All Adapters and Enclosures/vd.state[&quot;{#ADVD}&quot;],,&quot;like&quot;,&quot;Failed&quot;)=1</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>find(/Raid LSI MegaRaid All Adapters and Enclosures/vd.state[&quot;{#ADVD}&quot;],2h,&quot;like&quot;,&quot;Failed&quot;)=0</recovery_expression>
+                                    <name>LSIMegaRaid: {#ADVD} state Failed</name>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>7075358928dd452db756a0647bcd9907</uuid>
+                                    <expression>find(/Raid LSI MegaRaid All Adapters and Enclosures/vd.state[&quot;{#ADVD}&quot;],,&quot;like&quot;,&quot;Degraded&quot;)=1</expression>
+                                    <name>LSIMegaRaid: {#ADVD} state is Degraded</name>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                     </item_prototypes>
-                    <trigger_prototypes>
-                        <trigger_prototype>
-                            <expression>{Raid LSI MegaRaid All Adapters and Enclosures:lsimegaraid[vd,&quot;{#ADVD}&quot;].nodata(25m)}=1</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>LSIMegaRaid: nodata about {#ADVD}</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>4</priority>
-                            <description/>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Raid LSI MegaRaid All Adapters and Enclosures:vd.badblock[&quot;{#ADVD}&quot;].str(No)}=0</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>LSIMegaRaid: {#ADVD} Bad Blocks Exist</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>3</priority>
-                            <description/>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Raid LSI MegaRaid All Adapters and Enclosures:vd.state[&quot;{#ADVD}&quot;].str(Failed)}=1</expression>
-                            <recovery_mode>1</recovery_mode>
-                            <recovery_expression>{Raid LSI MegaRaid All Adapters and Enclosures:vd.state[&quot;{#ADVD}&quot;].str(Failed,2h)}=0</recovery_expression>
-                            <name>LSIMegaRaid: {#ADVD} state Failed</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>5</priority>
-                            <description/>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Raid LSI MegaRaid All Adapters and Enclosures:vd.state[&quot;{#ADVD}&quot;].str(Degraded)}=1</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>LSIMegaRaid: {#ADVD} state is Degraded</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>4</priority>
-                            <description/>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                    </trigger_prototypes>
-                    <graph_prototypes/>
-                    <host_prototypes/>
-                    <jmx_endpoint/>
-                    <timeout>3s</timeout>
-                    <url/>
-                    <query_fields/>
-                    <posts/>
-                    <status_codes>200</status_codes>
-                    <follow_redirects>1</follow_redirects>
-                    <post_type>0</post_type>
-                    <http_proxy/>
-                    <headers/>
-                    <retrieve_mode>0</retrieve_mode>
-                    <request_method>1</request_method>
-                    <allow_traps>0</allow_traps>
-                    <ssl_cert_file/>
-                    <ssl_key_file/>
-                    <ssl_key_password/>
-                    <verify_peer>0</verify_peer>
-                    <verify_host>0</verify_host>
+                    <request_method>POST</request_method>
                 </discovery_rule>
             </discovery_rules>
-            <httptests/>
-            <macros/>
-            <templates/>
-            <screens/>
         </template>
     </templates>
+    <triggers>
+        <trigger>
+            <uuid>3f499a806bc245e18903212a18ed6cec</uuid>
+            <expression>nodata(/Raid LSI MegaRaid All Adapters and Enclosures/lsimegaraid[battery_missing],3h)=1 or nodata(/Raid LSI MegaRaid All Adapters and Enclosures/lsimegaraid[battery_state],3h)=1</expression>
+            <name>Raid LSI MegaRaid battery: no data</name>
+            <priority>WARNING</priority>
+            <manual_close>YES</manual_close>
+            <tags>
+                <tag>
+                    <tag>Application</tag>
+                    <value>LSI_MegaRaid Battery</value>
+                </tag>
+            </tags>
+        </trigger>
+    </triggers>
 </zabbix_export>
+
